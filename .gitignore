@@ -1,0 +1,10 @@
+nginx-healthcheck-*/
+ngx-healthcheck-module/
+
+*.build
+*.buildinfo
+*.changes
+*.deb
+*.dsc
+*.tar.gz
+*.tar.xz

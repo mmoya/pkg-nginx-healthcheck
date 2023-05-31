@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+UPSTREAM_VER="1.24.0"
+
+UPSTREAM_TGZ="nginx_${UPSTREAM_VER}.orig.tar.gz"
+if ! test -f "$UPSTREAM_TGZ"; then
+  curl -O https://nginx.org/packages/ubuntu/pool/nginx/n/nginx/$UPSTREAM_TGZ
+fi
+echo "77a2541637b92a621e3ee76776c8b7b40cf6d707e69ba53a940283e30ff2f55d  $UPSTREAM_TGZ" | sha256sum -c -
+
+PACKAGE_NAME="nginx-healthcheck"
+PACKAGE_SRC="$PACKAGE_NAME-$UPSTREAM_VER"
+
+sudo rm -fr nginx-$UPSTREAM_VER
+tar xfz $UPSTREAM_TGZ
+sudo rm -fr "$PACKAGE_SRC"
+mv "nginx-$UPSTREAM_VER" "$PACKAGE_SRC"
+
+PACKAGE_TGZ="${UPSTREAM_TGZ/nginx/$PACKAGE_NAME}"
+cp "$UPSTREAM_TGZ" "$PACKAGE_TGZ"
+
+MOD_COMPONENT="ngx-healthcheck-module"
+MOD_TGZ="${PACKAGE_TGZ//.tar.gz}-${MOD_COMPONENT}.tar.gz"
+if ! test -f "$MOD_TGZ"; then
+  curl -L --output $MOD_TGZ https://github.com/zhouchangxun/ngx_healthcheck_module/tarball/8ad3ef0261012ddd
+fi
+echo "4f97d6735942801deaf471913a4d3da1aa217d6443c58333539d7fabd16d5435  $MOD_TGZ" | sha256sum -c -
+
+MOD_DIR="$PACKAGE_SRC/$MOD_COMPONENT"
+mkdir "$MOD_DIR"
+tar -xz --strip-components=1 -C "$MOD_DIR" -f $MOD_TGZ
+
+cp -a debian "$PACKAGE_SRC"
+(
+    cd $PACKAGE_SRC/debian
+
+    for suffix in 'dirs' docs install manpages postinst postrm preinst prerm lintian-overrides; do
+        mv -v "nginx.$suffix" "$PACKAGE_NAME.$suffix"
+    done
+
+    for suffix in default logrotate service; do
+        mv -v "nginx.$suffix" "$PACKAGE_NAME.nginx.$suffix"
+    done
+
+    mkdir patches
+    cp -a "../ngx-healthcheck-module/nginx_healthcheck_for_nginx_1.19+.patch" patches
+)
