@@ -1,7 +1,7 @@
-Source: nginx
+Source: nginx-healthcheck
 Section: httpd
 Priority: optional
-Maintainer: NGINX Packaging <nginx-packaging@f5.com>
+Maintainer: Maykel Moya <mmoya@mmoya.org>
 Build-Depends: debhelper (>= 11),
                dpkg-dev (>= 1.16.1~),
                quilt (>= 0.46-7~),
@@ -12,12 +12,12 @@ Build-Depends: debhelper (>= 11),
 Standards-Version: 4.1.4
 Homepage: https://nginx.org
 
-Package: nginx
+Package: nginx-healthcheck
 Architecture: any
 Depends: ${misc:Depends}, ${shlibs:Depends}, lsb-base (>= 3.0-6), adduser
 Provides: httpd, nginx, nginx-r1.24.0
-Conflicts: nginx-common, nginx-core
-Replaces: nginx-common, nginx-core
+Conflicts: nginx-common, nginx-core, nginx
+Replaces: nginx-common, nginx-core, nginx
 Description: high performance web server
  nginx [engine x] is an HTTP and reverse proxy server, as well as
  a mail proxy server.

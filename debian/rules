@@ -8,7 +8,7 @@ DPKG_EXPORT_BUILDFLAGS = 1
 include /usr/share/dpkg/buildflags.mk
 
 BUILDDIR_nginx = $(CURDIR)/debian/build-nginx
-INSTALLDIR = $(CURDIR)/debian/nginx
+INSTALLDIR = $(CURDIR)/debian/nginx-healthcheck
 BASEDIR = $(CURDIR)
 
 ifneq (,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
@@ -98,10 +98,10 @@ binary-indep: build post-build install
 	sed -e 's/%%PROVIDES%%/nginx/g' \
 		-e 's/%%DEFAULTSTART%%/2 3 4 5/g' \
 		-e 's/%%DEFAULTSTOP%%/0 1 6/g' \
-		< debian/nginx.init.in > debian/nginx.init
-	dh_installinit -i --no-stop-on-upgrade --no-start --name=nginx
-	dh_installsystemd -i --name=nginx nginx.service
-	dh_installlogrotate -i --name=nginx
+		< debian/nginx.init.in > debian/nginx-healthcheck.nginx.init
+	dh_installinit --no-stop-on-upgrade --no-start --name=nginx
+	dh_installsystemd --name=nginx nginx.service
+	dh_installlogrotate --name=nginx
 
 binary-arch: install
 	dh_testdir
