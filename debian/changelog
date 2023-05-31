@@ -1,3 +1,9 @@
+nginx-healthcheck (1.24.0-3~bionic) bionic; urgency=low
+
+  * fix path to ngx-healthcheck-module
+
+ -- Maykel Moya <mmoya@mmoya.org>  Wed, 31 May 2023 23:50:24 +0200
+
 nginx-healthcheck (1.24.0-2~bionic) bionic; urgency=low
 
   * rename package
