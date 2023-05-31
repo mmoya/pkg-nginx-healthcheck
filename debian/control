@@ -21,11 +21,3 @@ Replaces: nginx-common, nginx-core
 Description: high performance web server
  nginx [engine x] is an HTTP and reverse proxy server, as well as
  a mail proxy server.
-
-Package: nginx-dbg
-Architecture: any
-Section: debug
-Priority: optional
-Depends: ${misc:Depends}, nginx (= ${binary:Version})
-Description: nginx debug symbols
- This package contains the debugging symbols for nginx.
