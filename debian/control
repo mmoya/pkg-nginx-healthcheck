@@ -16,8 +16,11 @@ Package: nginx-healthcheck
 Architecture: any
 Depends: ${misc:Depends}, ${shlibs:Depends}, lsb-base (>= 3.0-6), adduser
 Provides: httpd, nginx, nginx-r1.24.0
-Conflicts: nginx-common, nginx-core, nginx
-Replaces: nginx-common, nginx-core, nginx
+Conflicts: nginx, nginx-common, nginx-core
+Replaces: nginx, nginx-common, nginx-core
 Description: high performance web server
  nginx [engine x] is an HTTP and reverse proxy server, as well as
  a mail proxy server.
+ .
+ includes the healthcheck module located in
+ https://github.com/zhouchangxun/ngx_healthcheck_module
