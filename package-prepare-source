@@ -44,6 +44,8 @@ cp -a debian "$PACKAGE_SRC"
         mv -v "nginx.$suffix" "$PACKAGE_NAME.nginx.$suffix"
     done
 
+    PATCH_FILE="nginx_healthcheck_for_nginx_1.19+.patch"
     mkdir patches
-    cp -a "../ngx-healthcheck-module/nginx_healthcheck_for_nginx_1.19+.patch" patches
+    cp -a "../ngx-healthcheck-module/$PATCH_FILE" patches
+    echo $PATCH_FILE >patches/series
 )
