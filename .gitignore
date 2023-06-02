@@ -3,6 +3,7 @@ ngx-healthcheck-module/
 
 *.build
 *.buildinfo
+*.buildlog
 *.changes
 *.deb
 *.dsc
